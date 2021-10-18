@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using YandexTests.Yandex_Entity;
 using System;
 using OpenQA.Selenium.Support.UI;
 using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
@@ -8,11 +7,21 @@ namespace YandexTests.HomePage
 {
     public class YandexHomePage
     {
+        private const string EnterFormXpath = "//div[contains(text(),'Войти')]";
+        private const string LoginFormSelector = "#passp-field-login";
+        private const string PasswordFormSelector = "#passp-field-passwd";
+        private const string YandexHomePageSearchFormXpath = "//input[@id = 'text']";
+
+        private const string LoginYandexCredentials = "ulyanitskyaleksandar";
+        private const string PasswordYandexCredentials = "110411sss";
+        private const string YandexByHomePageUrl = "https://yandex.by/";
+        private const string YandexHomePageTitle = "Яндекс";
+
         private IWebDriver _driver;
 
-        private IWebElement SearchResultEnter => _driver.FindElement(By.XPath(YandexHomePageSettings.EnterFormXpath));
-        private IWebElement SearchResultLogin => _driver.FindElement(By.CssSelector(YandexHomePageSettings.LoginFormSelector));
-        private IWebElement SearchResultPassword => _driver.FindElement(By.CssSelector(YandexHomePageSettings.PasswordFormSelector));
+        private IWebElement SearchResultEnter => _driver.FindElement(By.XPath(EnterFormXpath));
+        private IWebElement SearchResultLogin => _driver.FindElement(By.CssSelector(LoginFormSelector));
+        private IWebElement SearchResultPassword => _driver.FindElement(By.CssSelector(PasswordFormSelector));
 
         public YandexHomePage(IWebDriver _driver)
         {
@@ -21,7 +30,7 @@ namespace YandexTests.HomePage
 
         public void GoToYandexHomePage()
         {
-            _driver.Navigate().GoToUrl(YandexHomePageSettings.YandexByHomePageUrl);
+            _driver.Navigate().GoToUrl(YandexByHomePageUrl);
         }
 
         public void ClickOnEnterForm()
@@ -44,14 +53,14 @@ namespace YandexTests.HomePage
         public void YandexLog()
         {
             ClickOnEnterForm();
-            EnterLoginData(YandexHomePageSettings.LoginYandexCredentials);
-            EnterPasswordData(YandexHomePageSettings.PasswordYandexCredentials);
+            EnterLoginData(LoginYandexCredentials);
+            EnterPasswordData(PasswordYandexCredentials);
             IsElementVisible();
         }
 
-        public bool YandexCorrectLoginByUrl() => _driver.Url.Contains(YandexHomePageSettings.YandexByHomePageUrl);
+        public bool YandexCorrectLoginByUrl() => _driver.Url.Contains(YandexByHomePageUrl);
 
-        public bool YandexCorrectLoginByTitle() => _driver.Title.Contains(YandexHomePageSettings.YandexHomePageTitle);
+        public bool YandexCorrectLoginByTitle() => _driver.Title.Contains(YandexHomePageTitle);
 
         /*
          Чтобы методы YandexCorrectLoginByUrl() и YandexCorrectLoginByTitle() сработали, создаю Waiter с явным ожиданием условия 
@@ -62,7 +71,7 @@ namespace YandexTests.HomePage
         public void IsElementVisible()
         {
             WebDriverWait webDriverWait = new WebDriverWait(_driver, TimeSpan.FromSeconds(3));
-            webDriverWait.Until(ExpectedConditions.ElementIsVisible(By.XPath(YandexHomePageSettings.YandexHomePageSearchFormXpath)));
+            webDriverWait.Until(ExpectedConditions.ElementIsVisible(By.XPath(YandexHomePageSearchFormXpath)));
         }
     }
 }

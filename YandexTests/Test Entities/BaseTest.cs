@@ -8,7 +8,7 @@ using System;
 
 namespace YandexTests.TestClass
 {
-    public class TestSettings
+    public class BaseTest
     {
         protected IWebDriver? _driver;
         protected YandexHomePage? _homePage;
@@ -23,7 +23,7 @@ namespace YandexTests.TestClass
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
 
-        [OneTimeTearDown]
+        [TearDown]
         public void CloseDriver()
         {
             _driver?.Quit();
